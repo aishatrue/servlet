@@ -12,11 +12,14 @@ import hello.servlet.web.frontcontroller.v4.controller.MemberListControllerV4;
 import hello.servlet.web.frontcontroller.v4.controller.MemberSaveControllerV4;
 import hello.servlet.web.frontcontroller.v5.adapter.ControllerV3HandlerAdapter;
 import hello.servlet.web.frontcontroller.v5.adapter.ControllerV4HandlerAdapter;
+import hello.servlet.web.frontcontroller.v5.adapter.InjectHandlerAndAdapter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,38 +32,17 @@ import java.util.Map;
 public class FrontControllerServletV5 extends HttpServlet {
 
 
-    private final List<MyHandlerAdapter> adapterList = new ArrayList<>();
-    private final Map<String,Object> handlerMappingMap = new HashMap<>();
+    private final List<MyHandlerAdapter> adapterList;
+    private final Map<String,Object> handlerMappingMap;
 
 
-
-    public FrontControllerServletV5() {
-        initHandler();
-        addAdapterList();
-
-
-    }
-
-    public void addAdapterList(){
-        adapterList.add(new ControllerV3HandlerAdapter());
-        adapterList.add(new ControllerV4HandlerAdapter());
+    @Autowired
+    public FrontControllerServletV5(InjectHandlerAndAdapter injectHandlerAndAdapter) {
+        this.adapterList = injectHandlerAndAdapter.getAdapterList();
+        this.handlerMappingMap = injectHandlerAndAdapter.getHandlerMappingMap();
     }
 
 
-    private void initHandler() {
-        handlerMappingMap.put("/front-controller/v5/v3/members/new-form", new
-                MemberFormControllerV3());
-        handlerMappingMap.put("/front-controller/v5/v3/members/save", new
-                MemberSaveControllerV3());
-        handlerMappingMap.put("/front-controller/v5/v3/members", new
-                MemberListControllerV3());
-        handlerMappingMap.put("/front-controller/v5/v4/members/new-form", new
-                MemberFormControllerV4());
-        handlerMappingMap.put("/front-controller/v5/v4/members/save", new
-                MemberSaveControllerV4());
-        handlerMappingMap.put("/front-controller/v5/v4/members", new
-                MemberListControllerV4());
-    }
 
 
     @Override
