@@ -28,6 +28,7 @@ public class MyView {
         dispatcher.forward(request,response);
     }
 
+
     private static void modelToRequestAttribute(Map<String, Object> model, HttpServletRequest request) {
         // Model에 들어있는건 아래. jsp에서 request,response를 결국 써야하니까 model의 값을 세팅.
         //"member",member   |  "memberList",memberList
