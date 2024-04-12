@@ -21,6 +21,7 @@ public class MemberSaveControllerV3 implements ControllerV3 {
         //Model에 데이터를 보관한다. 이 부분이 다름(request내부에 map같은게 있음. 지금 당장은 Model자체를 쓰는건 아님)
         String viewPath = "save-result";
         ModelView modelView = new ModelView(viewPath);
+
         modelView.getModel().put("member",member);
 
 

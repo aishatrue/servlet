@@ -7,7 +7,11 @@ import hello.servlet.web.frontcontroller.v3.controller.MemberFormControllerV3;
 import hello.servlet.web.frontcontroller.v3.controller.MemberListControllerV3;
 import hello.servlet.web.frontcontroller.v3.controller.MemberSaveControllerV3;
 import hello.servlet.web.frontcontroller.v4.ControllerV4;
+import hello.servlet.web.frontcontroller.v4.controller.MemberFormControllerV4;
+import hello.servlet.web.frontcontroller.v4.controller.MemberListControllerV4;
+import hello.servlet.web.frontcontroller.v4.controller.MemberSaveControllerV4;
 import hello.servlet.web.frontcontroller.v5.adapter.ControllerV3HandlerAdapter;
+import hello.servlet.web.frontcontroller.v5.adapter.ControllerV4HandlerAdapter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -39,6 +43,7 @@ public class FrontControllerServletV5 extends HttpServlet {
 
     public void addAdapterList(){
         adapterList.add(new ControllerV3HandlerAdapter());
+        adapterList.add(new ControllerV4HandlerAdapter());
     }
 
 
@@ -49,6 +54,12 @@ public class FrontControllerServletV5 extends HttpServlet {
                 MemberSaveControllerV3());
         handlerMappingMap.put("/front-controller/v5/v3/members", new
                 MemberListControllerV3());
+        handlerMappingMap.put("/front-controller/v5/v4/members/new-form", new
+                MemberFormControllerV4());
+        handlerMappingMap.put("/front-controller/v5/v4/members/save", new
+                MemberSaveControllerV4());
+        handlerMappingMap.put("/front-controller/v5/v4/members", new
+                MemberListControllerV4());
     }
 
 
@@ -64,7 +75,10 @@ public class FrontControllerServletV5 extends HttpServlet {
             return;
         }else{
 
-            ModelView modelView = getHandlerAdapter(request, response, handler);
+
+            MyHandlerAdapter handlerAdapter = getHandlerAdapter(request, response, handler);
+            ModelView modelView = handlerAdapter.handle(request, response, handler);
+
             MyView myView = viewResolver(modelView.getViewName());
             myView.render(modelView.getModel(),request,response);
 
@@ -73,10 +87,10 @@ public class FrontControllerServletV5 extends HttpServlet {
 
     }
 
-    private ModelView getHandlerAdapter(HttpServletRequest request, HttpServletResponse response, Object handler) throws ServletException, IOException {
+    private MyHandlerAdapter getHandlerAdapter(HttpServletRequest request, HttpServletResponse response, Object handler) throws ServletException, IOException {
         for (MyHandlerAdapter adapter : adapterList) {
             if(adapter.supports(handler)){
-               return adapter.handle(request, response, handler);
+               return adapter;
             }
         }
         throw new IllegalArgumentException("존재하지 않는 어댑터입니다.");
