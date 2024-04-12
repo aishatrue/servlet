@@ -31,7 +31,7 @@ public class FrontControllerServletV4 extends HttpServlet {
         //model에 저장할 데이터를 request를 통해 가져와, map에 저장.
         Map<String,String> paramMap = new HashMap<>();
         Map<String, Object> model = new HashMap<>();
-        
+
         request.getParameterNames().asIterator()
                 .forEachRemaining(paramName-> paramMap.put(paramName, request.getParameter(paramName)));
 
@@ -46,10 +46,15 @@ public class FrontControllerServletV4 extends HttpServlet {
             String viewName = controllerV4.process(paramMap,model);
 
             //최종 렌더링을 하는곳.
-            MyView myView = new MyView("/WEB-INF/views/" + viewName + ".jsp");
+            MyView myView = viewResolver(viewName);
             myView.render(model,request,response);
 
 
         }
+    }
+
+    private static MyView viewResolver(String viewName) {
+        MyView myView = new MyView("/WEB-INF/views/" + viewName + ".jsp");
+        return myView;
     }
 }

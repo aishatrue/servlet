@@ -39,9 +39,7 @@ public class FrontControllerServletV3 extends HttpServlet {
         System.out.println("FrontControllerServletV3.service");
 
         //model에 저장할 데이터를 request를 통해 가져와, map에 저장.
-        Map<String,String> paramMap = new HashMap<>();
-        request.getParameterNames().asIterator()
-                .forEachRemaining(paramName-> paramMap.put(paramName, request.getParameter(paramName)));
+        Map<String, String> paramMap = createParamMap(request);
 
         String requestURI = request.getRequestURI();
         ControllerV3 controllerV3 = controllerV3Map.get(requestURI);
@@ -63,6 +61,13 @@ public class FrontControllerServletV3 extends HttpServlet {
 
 
 
+    }
+
+    private  Map<String, String> createParamMap(HttpServletRequest request) {
+        Map<String,String> paramMap = new HashMap<>();
+        request.getParameterNames().asIterator()
+                .forEachRemaining(paramName-> paramMap.put(paramName, request.getParameter(paramName)));
+        return paramMap;
     }
 
 
