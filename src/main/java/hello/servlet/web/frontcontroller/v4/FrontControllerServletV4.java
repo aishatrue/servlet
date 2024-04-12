@@ -1,11 +1,6 @@
 package hello.servlet.web.frontcontroller.v4;
 
-import hello.servlet.web.frontcontroller.ModelView;
 import hello.servlet.web.frontcontroller.MyView;
-import hello.servlet.web.frontcontroller.v3.ControllerV3;
-import hello.servlet.web.frontcontroller.v3.controller.MemberFormControllerV3;
-import hello.servlet.web.frontcontroller.v3.controller.MemberListControllerV3;
-import hello.servlet.web.frontcontroller.v3.controller.MemberSaveControllerV3;
 import hello.servlet.web.frontcontroller.v4.controller.MemberFormControllerV4;
 import hello.servlet.web.frontcontroller.v4.controller.MemberListControllerV4;
 import hello.servlet.web.frontcontroller.v4.controller.MemberSaveControllerV4;
@@ -24,7 +19,6 @@ import java.util.Map;
 public class FrontControllerServletV4 extends HttpServlet {
 
     private Map<String, ControllerV4> controllerV4Map = new HashMap<>();
-    public static Map<String, Object> model = new HashMap<>();
     public FrontControllerServletV4() {
         controllerV4Map.put("/front-controller/v4/members/new-form", new MemberFormControllerV4());
         controllerV4Map.put("/front-controller/v4/members/save", new MemberSaveControllerV4());
@@ -36,6 +30,8 @@ public class FrontControllerServletV4 extends HttpServlet {
         System.out.println("FrontControllerServletV4.service");
         //model에 저장할 데이터를 request를 통해 가져와, map에 저장.
         Map<String,String> paramMap = new HashMap<>();
+        Map<String, Object> model = new HashMap<>();
+        
         request.getParameterNames().asIterator()
                 .forEachRemaining(paramName-> paramMap.put(paramName, request.getParameter(paramName)));
 
