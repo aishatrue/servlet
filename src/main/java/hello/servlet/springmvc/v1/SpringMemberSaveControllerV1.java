@@ -31,6 +31,7 @@ public class SpringMemberSaveControllerV1 {
         ModelAndView modelView = new ModelAndView(viewPath);
 
 //        modelView.getModel().put("member",member);
+        //modelAndView도 결국은 HashMap타입의 map을 가짐. 그래서 getModel안해도 되고, 바로 addObject하면 그 모델 맵에 넣을 수 있다.
         modelView.addObject("member",member);
 
 
