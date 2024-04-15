@@ -11,7 +11,7 @@ public class OldController implements Controller {
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         System.out.println("OldController.handleRequest");
+        return new ModelAndView("new-form");  //new-form이라는 스프링빈이 있으면,BeanNameViewResolver를 우선으로 썼을것. 암튼 모델 데이터의 뷰의 이름을 설정해 반환.
 
-        return null;
     }
 }
